@@ -1,0 +1,9 @@
+/*
+* src/styles/board.css
+*/
+ 
+  .board-row {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+  }
