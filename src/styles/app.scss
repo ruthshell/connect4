@@ -1,7 +1,9 @@
 @charset 'utf-8';
 
+@import './fonts';
+
 @import 'settings';
-@import '../../node_modules/foundation-sites/assets/foundation';
+@import '../../node_modules/foundation-sites/scss/foundation';
 
 // Global styles
 @include foundation-global-styles;
@@ -57,3 +59,7 @@
 @include foundation-flex-classes;
 @include foundation-visibility-classes;
 // @include foundation-prototype-classes;
+
+@import './board';
+@import './boardRow';
+@import './messages';

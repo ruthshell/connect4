@@ -3,53 +3,23 @@
 ///
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter, Route, Switch, NavLink } from 'react-router-dom'
+import App from './App';
+/**/
+import {createStore, applyMiddleware, combineReducers} from 'redux';
+import {Provider} from 'react-redux';
+import thunkMiddleware from 'redux-thunk';
+import {boardReducer} from'./redux/reducer';
 
-// Import Board and Scoreboard views
-import { Board } from './components/board'
-import { Scoreboard } from './components/scoreboard'
-
-// Foundation Elements
-import { GridContainer, Grid, Cell, TopBar, TopBarLeft, TopBarRight, Menu, MenuItem, MenuText } from 'react-foundation';
-
-import './styles/app.scss'
-import './styles/board.scss'
-import './styles/buttons.scss'
-
-// Create App component
-class App extends React.Component {
-  render() {
-    return (
-      <div className="app">
-        <BrowserRouter>
-          <TopBar>
-            <TopBarLeft>
-              <Menu>
-                <MenuText>Tic Tac Toe</MenuText>
-              </Menu>
-            </TopBarLeft>
-            <TopBarRight>
-              <Menu>
-                <MenuItem><NavLink to="/">Game</NavLink></MenuItem>
-                <MenuItem><NavLink to="/scoreboard">Scoreboard</NavLink></MenuItem>
-              </Menu>
-            </TopBarRight>
-          </TopBar>
-          <GridContainer>
-            <Grid className="grid-padding-y align-center">
-              <Cell>
-                <Switch>
-                  <Route exact path="/" component={Board}/>
-                  <Route path="/scoreboard" component={Scoreboard}/>
-                </Switch>
-              </Cell>
-            </Grid>
-          </GridContainer>
-        </BrowserRouter>
-      </div>
-    )
-  }
-}
+const store = createStore(
+	combineReducers({
+		board: boardReducer
+	}),
+	applyMiddleware(thunkMiddleware)
+);
 
 // Render the App component into DOM
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>
+  , document.getElementById('root'))
