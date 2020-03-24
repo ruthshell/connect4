@@ -1,0 +1,29 @@
+
+
+  .board__row {
+    &:hover {
+      cursor: pointer;
+      .board__box {
+        background-color: darken($secondary-color, 5%);
+      }
+    }
+    .board__box {
+      display: block;
+      margin: 10% 5%;
+      padding: 0;
+      width: 90%;
+      padding-top: 90%;
+      font-size: 32px;
+      background-color: $secondary-color;
+      border-radius: 50%;
+      box-shadow: inset 0 3px 5px $black;
+      border: 1px solid $black;
+      transition: background-color 0.1s linear;
+      &.red{
+        background-color: get-color(red);
+      } 
+      &.yellow{
+        background-color: get-color(yellow);
+      } 
+    }
+  }

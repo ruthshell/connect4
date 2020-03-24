@@ -1,0 +1,33 @@
+.dot {
+  font-size: 1.5rem;
+  line-height: 0;
+}
+
+.red{
+  color: get-color(red);
+} 
+.yellow{
+  color: get-color(yellow);
+}
+
+.messageBox{
+  &.winner {
+    text-transform: uppercase;
+    animation: messageBoxWinnerAnimation 1s infinite;
+  }
+  .active {
+    text-decoration: underline;
+  }
+}
+
+@keyframes messageBoxWinnerAnimation {
+  0% {
+    border-color: $primary-color;
+  }
+  50% {
+    border-color: darken($primary-color,60%);
+  }
+  100% {
+    border-color: $primary-color;
+  }
+}
