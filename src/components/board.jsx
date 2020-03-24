@@ -6,7 +6,9 @@ import {connect} from 'react-redux'
 import {startGame, updateBoxes} from '../redux/actions'
 
 // Import Box component
-import {BoardBox} from './BoardBox'
+import BoardBox from './BoardBox'
+import MessageBox from './MessageBox'
+import NewGameLink from './NewGameLink'
 
 // Import Sound
 import UIfx from 'uifx'
@@ -36,23 +38,27 @@ class Board extends React.Component {
     render() {
 
         this.soundClick.setVolume(this.props.isSoundOn ? 0.5 : 0)
-
+        
         return (
 
             /* The game board */
-            <Grid className="grid-padding-y align-center">
-                {this.props.boxes.map((row, index) => {
-                    return (
-                        <Cell key={index} className="board__row auto" onClick={() => this.clickColumn(index)}>
-                            {row.slice(0).reverse().map((box, i) => {
-                                return (
-                                    <BoardBox key={i} value={box} />
-                                )
-                            })}
-                        </Cell>
-                    )
-                })}
-            </Grid>
+            <div className="game">
+                <MessageBox />
+                <Grid className="grid-padding-y align-center">
+                    {this.props.boxes.map((row, index) => {
+                        return (
+                            <Cell key={index} className="board__row auto" onClick={() => this.clickColumn(index)}>
+                                {row.slice(0).reverse().map((box, i) => {
+                                    return (
+                                        <BoardBox key={i} value={box} />
+                                    )
+                                })}
+                            </Cell>
+                        )
+                    })}
+                </Grid>
+                <NewGameLink/>
+            </div>
         )
     }
 }
@@ -72,13 +78,12 @@ const mapStateTopProps = (state) => {
     return {
     	boxes: JSON.parse(JSON.stringify(state.board.boxes)),
     	size: state.board.size,
-    	isNext: state.board.isNext,
 		amountToWin: state.board.amountToWin,
 		isGameOver: state.board.isGameOver,
 		isSoundOn: state.board.isSoundOn
     }
 };
 
-Board = connect(mapStateTopProps, mapDispatchToProps)(Board);
+Board = connect(mapStateTopProps, mapDispatchToProps)(Board)
 
-export default Board;
+export default Board

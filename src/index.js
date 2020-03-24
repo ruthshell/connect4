@@ -3,12 +3,12 @@
 ///
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './App';
+import App from './App'
 /**/
-import {createStore, applyMiddleware, combineReducers} from 'redux';
-import {Provider} from 'react-redux';
-import thunkMiddleware from 'redux-thunk';
-import {boardReducer} from'./redux/reducer';
+import {createStore, applyMiddleware, combineReducers} from 'redux'
+import {Provider} from 'react-redux'
+import thunkMiddleware from 'redux-thunk'
+import {boardReducer} from'./redux/reducer'
 
 const store = createStore(
 	combineReducers({
