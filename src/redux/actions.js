@@ -15,10 +15,17 @@ export function updateBoxes(colIndex) {
 	}
 }
 
-// SET SOUND
+// TOGGLE SOUND
 export function toggleSound() {
 	return {
 		type: 'TOGGLE_SOUND'
+	}
+}
+
+// TOGGLE COMPUTER PLAYER
+export function toggleComputerPlayer() {
+	return {
+		type: 'TOGGLE_COMPUTER_PLAYER'
 	}
 }
 

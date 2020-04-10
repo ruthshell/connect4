@@ -13,10 +13,13 @@ const INITIAL_STATE = {
 		[colors[1]]: 'Player 2'
 	},
 	colors: colors,
+	score: [0,0],
 	amountToWin: 4,
 	winner: undefined,
-	isGameOver: false,
-	isSoundOn: true
+	isBoardBlocked: false,
+	isDraw: false,
+	isSoundOn: true,
+	isSinglePlayerGame: true
 };
 
 export function boardReducer(state = INITIAL_STATE, action) {
@@ -32,7 +35,7 @@ export function boardReducer(state = INITIAL_STATE, action) {
 				boxes: [...Array(action.columns)].map(e => Array(action.rows).fill(null)),
 				isNext: state.colors[0],
 				winner: undefined,
-				isGameOver: false
+				isBoardBlocked: false
 			};
 		case 'UPDATE_BOXES':
 			const boxes = [...Array(state.size.columns)].map((col,colIndex) => {
@@ -53,13 +56,15 @@ export function boardReducer(state = INITIAL_STATE, action) {
 
 			})
 			const winner = getWinner(boxes,state.amountToWin)
+			const isDraw = (!winner && areAllBoxesClicked(boxes))
 
 			return{
 				...state,
 				boxes: boxes,
 				winner: winner,
+				isDraw: isDraw,
 				isNext: (state.isNext === state.colors[0]) ? state.colors[1] : state.colors[0],
-				isGameOver: (winner || areAllBoxesClicked(boxes))
+				isBoardBlocked: ((winner || areAllBoxesClicked(boxes)) || (state.isNext === state.colors[0] && state.isSinglePlayerGame))
 			};
 		case 'UPDATE_PLAYERNAME':
 			return{
@@ -70,6 +75,11 @@ export function boardReducer(state = INITIAL_STATE, action) {
 			return{
 				...state,
 				isSoundOn: !state.isSoundOn
+			};
+		case 'TOGGLE_COMPUTER_PLAYER':
+			return{
+				...state,
+				isSinglePlayerGame: !state.isSinglePlayerGame
 			};
 		default: return state;
 	}

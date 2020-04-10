@@ -25,7 +25,7 @@ class MessageBox extends React.Component {
             // If winner exists, create status message
             message = <div className={"text-center " + this.props.winner}><b>The winner is: {this.props.playerNames[this.props.winner]}!</b></div>
             this.soundSuccess.play()
-        } else if(!this.props.winner && this.props.isGameOver) {
+        } else if(this.props.isDraw) {
             // If game is drawn, create status message
             message = <div>Game drawn!</div>
         } else {
@@ -64,7 +64,7 @@ const mapStateTopProps = (state) => {
         colors: state.board.colors,
     	winner: state.board.winner,
     	isNext: state.board.isNext,
-    	isGameOver: state.board.isGameOver,
+    	isDraw: state.board.isDraw,
         isSoundOn: state.board.isSoundOn
     }
 }
