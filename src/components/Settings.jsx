@@ -19,8 +19,8 @@ class Settings extends React.Component {
         this.handleToggleComputerPlayer = this.handleToggleComputerPlayer.bind(this)
     }
 
-    handleChangePlayerName(event) {
-        this.props.updatePlayerName(event.target.id, event.target.value)
+    handleChangePlayerName(index, event) {
+        this.props.updatePlayerName(index, event.target.value)
     }
 
     handleToggleComputerPlayer() {
@@ -39,20 +39,16 @@ class Settings extends React.Component {
                         <Switch input={{ checked: this.props.isSinglePlayerGame, onChange: this.handleToggleComputerPlayer }}  active={{ text: '1' }} inactive={{ text: '2' }} />
                     </Cell>
                 </Grid>
-                {this.props.colors.map((color) => {
+                {Object.keys(this.props.players).map((key) => {
                     return (
-                        (this.props.isSinglePlayerGame && color === 'yellow') ? null
+                        (this.props.isSinglePlayerGame && this.props.players[key].isComputer) ? null
                             :
-                            <Grid key={color} className="align-center">
-                                <Cell className="small-2">
-                                    <label htmlFor={color} className="middle">{color}</label>
-                                </Cell>
-                                <Cell className="auto">
+                            <Grid key={key} className="align-center">
+                                <Cell className={"auto " + this.props.players[key].color}>
                                     <input
                                         type="text"
-                                        id={color}
-                                        value={this.props.playerNames[color]}
-                                        onChange={this.handleChangePlayerName} />
+                                        placeholder={this.props.players[key].techname}
+                                        onChange={this.handleChangePlayerName.bind(this, key)} />
                                 </Cell>
                             </Grid>
 
@@ -67,8 +63,8 @@ class Settings extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        updatePlayerName : (color,name) => {
-            return dispatch(updatePlayerName(color,name))
+        updatePlayerName : (index,name) => {
+            return dispatch(updatePlayerName(index,name))
         },
         toggleComputerPlayer : () => {
             return dispatch(toggleComputerPlayer())
@@ -78,9 +74,9 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateTopProps = (state) => {
     return {
-    	playerNames: state.board.playerNames,
     	colors: state.board.colors,
-        isSinglePlayerGame: state.board.isSinglePlayerGame
+        isSinglePlayerGame: state.board.isSinglePlayerGame,
+        players: state.player
     }
 };
 

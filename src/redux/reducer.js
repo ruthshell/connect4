@@ -1,75 +1,45 @@
-import {getWinner,areAllBoxesClicked} from '../utils/checkBoard'
-
-const colors = ['red','yellow']
-
-const INITIAL_STATE = {
-	boxes: [],
+const INITIAL_BOARD_STATE = {
 	size: {
-		'rows': 0,
-		'columns': 0
+		'rows': 6,
+		'columns': 7
 	},
-	playerNames: {
-		[colors[0]]: 'Player 1',
-		[colors[1]]: 'Player 2'
-	},
-	colors: colors,
-	score: [0,0],
 	amountToWin: 4,
-	winner: undefined,
-	isBoardBlocked: false,
+	winner: null,
 	isDraw: false,
 	isSoundOn: true,
-	isSinglePlayerGame: true
-};
+	isSinglePlayerGame: false
+}
 
-export function boardReducer(state = INITIAL_STATE, action) {
+const INITIAL_PLAYER_STATE = {
+	1:{
+		name: 'Player 1',
+		techname: 'Player 1',
+		color: 'red',
+		score: 0
+	},
+	2:{
+		name: 'Player 2',
+		techname: 'Player 2',
+		color: 'yellow',
+		score: 0,
+		isComputer: true
+	}
+}
+
+export function boardReducer(state = INITIAL_BOARD_STATE, action) {
 	switch (action.type) {
 
 		case 'START_GAME':
 			return{
 				...state,
-				size: {
-					'rows': action.rows,
-					'columns': action.columns
-				},
-				boxes: [...Array(action.columns)].map(e => Array(action.rows).fill(null)),
-				isNext: state.colors[0],
-				winner: undefined,
-				isBoardBlocked: false
+				isNext: 1,
+				winner: null
 			};
-		case 'UPDATE_BOXES':
-			const boxes = [...Array(state.size.columns)].map((col,colIndex) => {
-
-				if (action.colIndex === colIndex) {
-					let isColumnUnDone = true
-					return [...state.boxes[colIndex]].map((row,rowIndex) => {
-						if(row == null && isColumnUnDone) {
-							isColumnUnDone = false
-							return state.isNext
-						} else {
-							return row
-						}
-					})
-				} else {
-					return [...state.boxes[colIndex]]
-				}
-
-			})
-			const winner = getWinner(boxes,state.amountToWin)
-			const isDraw = (!winner && areAllBoxesClicked(boxes))
-
+		case 'TOGGLE_NEXTPLAYER':
 			return{
 				...state,
-				boxes: boxes,
-				winner: winner,
-				isDraw: isDraw,
-				isNext: (state.isNext === state.colors[0]) ? state.colors[1] : state.colors[0],
-				isBoardBlocked: ((winner || areAllBoxesClicked(boxes)) || (state.isNext === state.colors[0] && state.isSinglePlayerGame))
-			};
-		case 'UPDATE_PLAYERNAME':
-			return{
-				...state,
-				playerNames: {...state.playerNames, [action.color]: action.name}
+				isNext: (state.isNext === 1) ? 2 : 1,
+				winner: action.winner
 			};
 		case 'TOGGLE_SOUND':
 			return{
@@ -81,6 +51,17 @@ export function boardReducer(state = INITIAL_STATE, action) {
 				...state,
 				isSinglePlayerGame: !state.isSinglePlayerGame
 			};
+		default: return state;
+	}
+}
+
+export function playerReducer(state = INITIAL_PLAYER_STATE, action) {
+	switch (action.type) {
+		case 'UPDATE_PLAYERNAME':
+			state[action.index].name = action.name
+			return[
+				...state
+			]
 		default: return state;
 	}
 }

@@ -23,7 +23,7 @@ class MessageBox extends React.Component {
 
         if (this.props.winner) {
             // If winner exists, create status message
-            message = <div className={"text-center " + this.props.winner}><b>The winner is: {this.props.playerNames[this.props.winner]}!</b></div>
+            message = <div className={"text-center " + this.props.players[this.props.winner].color}><b>The winner is: {this.props.players[this.props.winner].name}!</b></div>
             this.soundSuccess.play()
         } else if(this.props.isDraw) {
             // If game is drawn, create status message
@@ -33,12 +33,12 @@ class MessageBox extends React.Component {
             message =
                 <Grid>
                     <Cell className="auto">
-                        <span className={'dot ' + this.props.colors[0]}>&#9679;</span>
-                        <span className={(this.props.isNext === this.props.colors[0] ? 'active' : null)}>{this.props.playerNames[this.props.colors[0]]}</span>
+                        <span className={'dot ' + this.props.players[1].color}>&#9679;</span>
+                        <span className={(this.props.isNext === 1 ? 'active' : null)}>{this.props.players[1].name}</span>
                     </Cell>
                     <Cell className="shrink">
-                        <span className={(this.props.isNext === this.props.colors[1] ? 'active' : null)}>{this.props.playerNames[this.props.colors[1]]}</span>
-                        <span className={'dot ' + this.props.colors[1]}>&#9679;</span>
+                        <span className={(this.props.isNext === 2 ? 'active' : null)}>{this.props.players[2].name}</span>
+                        <span className={'dot ' + this.props.players[2].color}>&#9679;</span>
                     </Cell>
                 </Grid>
         }
@@ -60,12 +60,11 @@ class MessageBox extends React.Component {
 
 const mapStateTopProps = (state) => {
     return {
-        playerNames: state.board.playerNames,
-        colors: state.board.colors,
     	winner: state.board.winner,
     	isNext: state.board.isNext,
     	isDraw: state.board.isDraw,
-        isSoundOn: state.board.isSoundOn
+        isSoundOn: state.board.isSoundOn,
+        players: state.player
     }
 }
 

@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 // Import Board and Scoreboard views
-import Board from './components/Board'
+import GameBoard from './components/GameBoard'
 import Header from './components/Header'
 import Settings from './components/Settings'
 
@@ -24,7 +24,7 @@ class App extends Component {
             <Header/>
             <Switch>
               <Route exact path="/" component={Settings}/>
-              <Route path="/board" component={Board}/>
+              <Route path="/board" component={GameBoard}/>
             </Switch>
           </GridContainer>
         </BrowserRouter>

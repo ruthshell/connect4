@@ -8,11 +8,12 @@ import App from './App'
 import {createStore, applyMiddleware, combineReducers} from 'redux'
 import {Provider} from 'react-redux'
 import thunkMiddleware from 'redux-thunk'
-import {boardReducer} from'./redux/reducer'
+import {boardReducer, playerReducer} from'./redux/reducer'
 
 const store = createStore(
 	combineReducers({
-		board: boardReducer
+    board: boardReducer,
+    player: playerReducer
 	}),
 	applyMiddleware(thunkMiddleware)
 );

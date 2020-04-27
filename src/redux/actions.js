@@ -1,17 +1,15 @@
 // START GAME
-export function startGame(rows = 6, columns = 7) {
+export function startGame() {
 	return {
 		type: 'START_GAME',
-		rows: rows,
-		columns: columns
 	}
 }
 
-// UPDATE BOXES
-export function updateBoxes(colIndex) {
+// TOGGLE NEXT PLAYER
+export function toggleNextPlayer(winner) {
 	return {
-		type: 'UPDATE_BOXES',
-		colIndex: colIndex
+		type: 'TOGGLE_NEXTPLAYER',
+		winner: winner
 	}
 }
 
@@ -30,10 +28,10 @@ export function toggleComputerPlayer() {
 }
 
 // UPDATE PLAYERNAME
-export function updatePlayerName(color,name) {
+export function updatePlayerName(index,name) {
 	return {
 		type: 'UPDATE_PLAYERNAME',
-		color: color,
+		index: index,
 		name: name
 	}
 }
